@@ -1,0 +1,21 @@
+@using CommerceFrontEndSite.Features.Start
+@using EPiServer.Web.Mvc.Html
+@model StartPageViewModel
+<h2 @Html.EditAttributes(m => m.CurrentContent.MetaTitle)>
+    @(Model.CurrentContent.MetaTitle ?? Model.CurrentContent.Name)
+</h2>
+@Html.PropertyFor(m => m.CurrentContent.MainBody)
+@if (Model.TopLevelCategories != null)
+{
+    <div>
+        Top Level Categories
+        <ul>
+            @foreach (var item in Model.TopLevelCategories)
+            {
+                <li>
+                    @Html.ContentLink(item)
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,32 @@
+﻿@using CommerceFrontEndSite.Features.Site
+@using EPiServer.Core
+@model ISiteViewModel<IContent>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/Static/css/bootstrap.min.css">
+    <title>@Model.PageTitle - Commerce Training</title>
+</head>
+<body>
+    @Html.RenderEPiServerQuickNavigator()
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-12">
+                @Html.Partial("_Navigation")
+            </div>
+        </div>
+        @RenderBody()
+        <hr />
+        <div class="row">
+            <div class="col col-sm-12">
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+    </div>
+    <script src="/Static/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/Static/js/popper.min.js"></script>
+    <script src="/Static/js/bootstrap.min.js"></script>
+</body>
+</html>

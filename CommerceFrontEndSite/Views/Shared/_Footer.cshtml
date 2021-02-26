@@ -1,0 +1,56 @@
+﻿@using EPiServer.Core
+@using EPiServer.Security
+@using CommerceFrontEndSite.Features.Site
+@model ISiteViewModel<IContent>
+<a class="btn btn-info btn-sm" data-toggle="collapse" href="#currentInfo" aria-expanded="false" aria-controls="currentInfo">
+    Current market and visitor
+</a>
+<div class="collapse" id="currentInfo">
+    <div class="card card-block" style="font-size: x-small;">
+        <h6>Current Market</h6>
+        <table class="table table-bordered table-striped table-sm">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Default Currency</th>
+                <th>Default Language</th>
+            </tr>
+            <tr>
+                <td>@Model.CurrentMarket.MarketId</td>
+                <td>@Model.CurrentMarket.MarketName</td>
+                <td>@Model.CurrentMarket.DefaultCurrency</td>
+                <td>@Model.CurrentMarket.DefaultLanguage</td>
+            </tr>
+        </table>
+        <h6>Visitor</h6>
+        <table class="table table-bordered table-striped table-sm">
+            <tr>
+                <th>Anonymous?</th>
+                <th>Name</th>
+                <th>Roles</th>
+            </tr>
+            <tr>
+                <td>@(!PrincipalInfo.CurrentPrincipal.Identity.IsAuthenticated)</td>
+                <td>@PrincipalInfo.Current.Name</td>
+                <td>@(string.Join(", ", PrincipalInfo.Current.RoleList))</td>
+            </tr>
+        </table>
+        @if (HttpContext.Current != null)
+        {
+            <h6>Cookies</h6>
+            <table class="table table-bordered table-striped table-sm">
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                </tr>
+                @foreach (string key in HttpContext.Current.Request.Cookies.AllKeys)
+                {
+                    <tr>
+                        <td>@HttpContext.Current.Request.Cookies[key].Name</td>
+                        <td>@HttpContext.Current.Request.Cookies[key].Value</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>

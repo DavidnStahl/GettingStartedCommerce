@@ -1,0 +1,23 @@
+﻿@using CommerceFrontEndSite.Features.Customer
+@using CommerceFrontEndSite.Features.Site
+@model SiteViewModel<AccountPage>
+<h2 @Html.EditAttributes(m => m.CurrentContent.MetaTitle)>
+    @(Model.CurrentContent.MetaTitle ?? Model.CurrentContent.Name)
+</h2>
+<div>
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        <input type="text" name="userName" />
+        <input type="text" name="passWord" />
+        <input type="submit" value="Log In" />
+    }
+</div>
+<div>
+    <h3>Create Account</h3>
+    @using (Html.BeginForm("CreateAccount", "Account", FormMethod.Post))
+    {
+        <input type="text" name="userName" />
+        <input type="text" name="passWord" />
+        <input type="submit" value="Create Account" />
+    }
+</div>

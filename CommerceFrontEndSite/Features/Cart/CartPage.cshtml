@@ -1,0 +1,50 @@
+﻿@using CommerceFrontEndSite.Features.Cart
+@model CartPageViewModel
+<h2 @Html.EditAttributes(m => m.CurrentContent.MetaTitle)>
+    @(Model.CurrentContent.MetaTitle ?? Model.CurrentContent.Name)
+</h2>
+@if (!string.IsNullOrWhiteSpace(Model.Message))
+{
+    <div class="alert alert-success">
+        @Model.Message
+    </div>
+}
+@if (Model.ValidationErrors != null)
+{
+    if (Model.ValidationErrors.Count > 0)
+    {
+        <div class="alert alert-warning">
+            @foreach (var error in Model.ValidationErrors)
+            {
+                <span class="badge badge-primary">
+                    @error.Key.Code - @error.Value
+                </span>
+            }
+        </div>
+    }
+}
+<div>
+    <h4>Cart items</h4>
+    <table class="table table-bordered table-striped table-sm">
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Placed Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+        @foreach (var item in Model.LineItems)
+        {
+            <tr>
+                <td>@item.Code</td>
+                <td>@item.DisplayName</td>
+                <td>@item.PlacedPrice @Model.SubTotal.Currency</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Quantity * item.PlacedPrice) @Model.SubTotal.Currency</td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="alert alert-primary">
+    Cart total: @Model.SubTotal @Model.SubTotal.Currency
+</div>

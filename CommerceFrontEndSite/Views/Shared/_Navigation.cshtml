@@ -1,0 +1,75 @@
+﻿@using CommerceFrontEndSite.Business.ExtensionMethods
+@using CommerceFrontEndSite.Features.Site
+@using System.Web.Mvc
+@using EPiServer.Core
+@using EPiServer.Security
+@model ISiteViewModel<IContent>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="~/Static/gfx/epi_edu.png" width="125" height="45" alt="" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                @if (!ContentReference.IsNullOrEmpty(ContentReference.StartPage))
+                {
+                    <li class="nav-item">
+                        @Html.ContentLink(ContentReference.StartPage, null, new { @class = ContentReference.StartPage.GetNavLinkClass(Model.CurrentContent.ContentLink) })
+                    </li>
+                }
+                @if ((Model.NavigationMenu != null) && (!ContentReference.IsNullOrEmpty(Model.NavigationMenu.CartPage)))
+                {
+                    <li class="nav-item">
+                        @Html.ContentLink(Model.NavigationMenu.CartPage, null, new { @class = Model.NavigationMenu.CartPage.GetNavLinkClass(Model.CurrentContent.ContentLink) })
+                    </li>
+                }
+                @if ((Model.NavigationMenu != null) && (!ContentReference.IsNullOrEmpty(Model.NavigationMenu.CheckOutPage)))
+                {
+                    <li class="nav-item">
+                        @Html.ContentLink(Model.NavigationMenu.CheckOutPage, null, new { @class = Model.NavigationMenu.CheckOutPage.GetNavLinkClass(Model.CurrentContent.ContentLink) })
+                    </li>
+                }
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Customer
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @if (PrincipalInfo.CurrentPrincipal.Identity.IsAuthenticated)
+                        {
+                            if ((Model.NavigationMenu != null) && (!ContentReference.IsNullOrEmpty(Model.NavigationMenu.AccountPage)))
+                            {
+                                @Html.ContentLink(Model.NavigationMenu.AccountPage, null, new { @class = "dropdown-item" })
+                            }
+                            if ((Model.NavigationMenu != null) && (!ContentReference.IsNullOrEmpty(Model.NavigationMenu.OrdersPage)))
+                            {
+                                @Html.ContentLink(Model.NavigationMenu.OrdersPage, null, new { @class = "dropdown-item" })
+                            }
+                            <a href="/en/logout" class="dropdown-item">Log Out</a>
+                        }
+                        else
+                        {
+                            <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Url.ContentUrl(Model.CurrentContent.ContentLink)" class="dropdown-item">Log In</a>
+                        }
+                    </div>
+                </li>
+            </ul>
+            @if ((Model.NavigationMenu != null) && (!ContentReference.IsNullOrEmpty(Model.NavigationMenu.SearchPage)))
+            {
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            }
+        </div>
+    </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach (ContentReference item in Model.Breadcrumb)
+            {
+                <li class="breadcrumb-item">@Html.ContentLink(item)</li>
+            }
+            <li class="breadcrumb-item active">@Model.CurrentContent.Name</li>
+        </ol>
+    </nav>

@@ -1,0 +1,18 @@
+﻿@using CommerceFrontEndSite.Features.CheckOut
+@model CheckOutPageViewModel
+<h2 @Html.EditAttributes(m => m.CurrentContent.MetaTitle)>
+    @(Model.CurrentContent.MetaTitle ?? Model.CurrentContent.Name)
+</h2>
+<h3>Shipping rates</h3>
+<div>
+
+</div>
+<div>
+    @using (@Html.BeginForm("CheckOut", "Checkout", FormMethod.Post))
+    {
+        @*@Html.DropDownListFor(m => m.SelectedShipId, new SelectList(Model.ShipmentMethods, "ShippingMethodId", "DisplayName"))
+            @Html.DropDownListFor(m => m.SelectedPayId, new SelectList(Model.PaymentMethods, "PaymentMethodId", "Name"))*@
+
+        <button type="submit">Check out</button>
+    }
+</div>

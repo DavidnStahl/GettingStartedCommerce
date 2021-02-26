@@ -1,0 +1,13 @@
+﻿@using CommerceFrontEndSite.Features.Search
+@using EPiServer.Web.Mvc.Html
+@model SearchPageViewModel
+<h2 @Html.EditAttributes(m => m.CurrentContent.MetaTitle)>
+    @(Model.CurrentContent.MetaTitle ?? Model.CurrentContent.Name)
+</h2>
+<div>
+    @using (Html.BeginForm("Search", "Search"))
+    {
+        <input type="text" name="keyWord" />
+        <input type="submit" value="Go" />
+    }
+</div>
